@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Poke Api</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-item *ngFor="let pokemon of listPokemon">
+    <ion-thumbnail slot="start">
+      <img [src]="urlBaseImg + pokemon.img">
+    </ion-thumbnail>
+
+    <ion-label>
+      <div>
+        <h3>
+          {{pokemon.name | titlecase }}
+        </h3>
+        <ion-badge *ngFor="let type of pokemon.types" [color]="type | lowercase">{{type | uppercase }}</ion-badge>
+      </div>
+    </ion-label>
+
+    <ion-chip [color]="pokemon.types[0] | lowercase">
+      <ion-label>{{pokemon.number.toString().padStart(3, '0')}}</ion-label>
+    </ion-chip>
+  </ion-item>
+</ion-content>
