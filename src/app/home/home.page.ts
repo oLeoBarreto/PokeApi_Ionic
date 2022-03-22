@@ -9,18 +9,30 @@ import { ApiService } from '../services/api.service';
 export class HomePage implements OnInit {
 
   urlBaseImg = "https://assets.pokemon.com/assets/cms2/img/pokedex/detail/";
-  listPokemon = [
-    { number: 1, name: "Bulbasaur", types: ["Grass", "Poison"], img: "001.png" },
-    { number: 4, name: "Charmander", types: ["Fire"], img: "004.png" },
-    { number: 7, name: "Squirtle", types: ["Water"], img: "007.png" },
-    { number: 25, name: "Pikachu", types: ["Eletric"], img: "025.png" },
-    { number: 149, name: "Dragonite", types: ["Dragon", "Flying"], img: "149.png" },
-  ];
+  listPokemon = [];
+
+  count: number = 0;
+  next: string = "";
+  previous: string = "";
 
   constructor(public apiService: ApiService) { }
 
-  ngOnInit() {
-    this.apiService.getPokemonList(this.apiService.urlApi)
+  ngOnInit(): void {
+    this.getPokemons(this.apiService.urlApi);
+  }
+
+  getPokemons(url: string) {
+    this.listPokemon = [];
+    this.apiService.getPokemonList(url).subscribe(response => {
+      console.log(response);
+      this.count = response['count'];
+      this.next = response['next'];
+      this.previous = response['previous'];
+
+      response['results'].forEach(pokemon => {
+        this.apiService.getPokemonData(pokemon['url']).subscribe(pokemonData => this.listPokemon.push(pokemonData));
+      });
+    });
   }
 
 }

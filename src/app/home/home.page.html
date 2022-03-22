@@ -5,22 +5,41 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
+
   <ion-item *ngFor="let pokemon of listPokemon">
     <ion-thumbnail slot="start">
-      <img [src]="urlBaseImg + pokemon.img">
+      <img [src]="urlBaseImg + pokemon.id.toString().padStart(3,'0') + '.png'">
     </ion-thumbnail>
 
     <ion-label>
       <div>
-        <h3>
-          {{pokemon.name | titlecase }}
-        </h3>
-        <ion-badge *ngFor="let type of pokemon.types" [color]="type | lowercase">{{type | uppercase }}</ion-badge>
+        <h3>{{ pokemon.name | titlecase }}</h3>
+        <ion-badge *ngFor="let tipo of pokemon.types" [color]="tipo['type']['name']"> {{tipo['type']['name'] |
+          uppercase}} </ion-badge>
       </div>
     </ion-label>
 
-    <ion-chip [color]="pokemon.types[0] | lowercase">
-      <ion-label>{{pokemon.number.toString().padStart(3, '0')}}</ion-label>
+    <ion-chip [color]="pokemon['types'][0]['type']['name']" slot="end">
+      <ion-label>{{pokemon.id.toString().padStart(3, '0')}}</ion-label>
     </ion-chip>
   </ion-item>
+
 </ion-content>
+
+<ion-footer>
+  <ion-toolbar>
+    <ion-buttons slot="start" *ngIf="previous != null">
+      <ion-button (click)="getPokemons(previous)">
+        <ion-icon slot="icon-only" name="caret-back-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+
+    <ion-title class="ion-text-center">{{count}}</ion-title>
+
+    <ion-buttons slot="end" *ngIf="next != null">
+      <ion-button (click)="getPokemons(next)">>
+        <ion-icon slot="icon-only" name="caret-next-circle-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

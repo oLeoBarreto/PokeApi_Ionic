@@ -6,26 +6,15 @@ import { HttpClient } from '@angular/common/http';
 })
 export class ApiService {
 
-  urlApi = "https://pokeapi.co/api/v2/pokemon";
+  urlApi = 'https://pokeapi.co/api/v2/pokemon/';
 
   constructor(private http: HttpClient) { }
 
   getPokemonList(url: string) {
-    const pokemonList = [];
-
-    this.http.get(url).subscribe(response => {
-      response['results'].forEach(pokemons => {
-        const pokemonData = this.getPokemonData(pokemons['url']);
-        pokemonList.push(pokemonData);
-      });
-    });
-
-    console.log(pokemonList);
+    return this.http.get(url);
   }
 
   getPokemonData(url: string) {
-    return this.http.get(url).subscribe(response => {
-      return response;
-    });
+    return this.http.get(url);
   }
 }
