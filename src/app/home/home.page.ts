@@ -14,6 +14,7 @@ export class HomePage implements OnInit {
   count: number = 0;
   next: string = "";
   previous: string = "";
+  page: number = 1;
 
   constructor(public apiService: ApiService) { }
 
@@ -24,15 +25,31 @@ export class HomePage implements OnInit {
   getPokemons(url: string) {
     this.listPokemon = [];
     this.apiService.getPokemonList(url).subscribe(response => {
-      console.log(response);
       this.count = response['count'];
       this.next = response['next'];
       this.previous = response['previous'];
 
       response['results'].forEach(pokemon => {
-        this.apiService.getPokemonData(pokemon['url']).subscribe(pokemonData => this.listPokemon.push(pokemonData));
+        this.apiService.getPokemonData(pokemon['url']).subscribe(pokemonData => {
+          this.listPokemon.push(pokemonData)
+          this.listPokemon.sort((a, b) => a['id'] - b['id']);
+        });
       });
     });
+  }
+
+  nextPage(url: string) {
+    this.page = this.page + 1;
+    this.getPokemons(url);
+  }
+
+  previusPage(url: string) {
+    this.page = this.page - 1;
+    this.getPokemons(url);
+  }
+
+  totalPages(numero: number) {
+    return Math.ceil(numero / 20);
   }
 
 }

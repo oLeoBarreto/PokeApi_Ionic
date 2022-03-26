@@ -28,17 +28,17 @@
 
 <ion-footer>
   <ion-toolbar>
-    <ion-buttons slot="start" *ngIf="previous != null">
-      <ion-button (click)="getPokemons(previous)">
-        <ion-icon slot="icon-only" name="caret-back-circle-outline"></ion-icon>
+    <ion-buttons slot="start" *ngIf="previous">
+      <ion-button (click)="previusPage(previous)">
+        <ion-icon slot="icon-only" name="arrow-back-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
 
-    <ion-title class="ion-text-center">{{count}}</ion-title>
+    <ion-title class="ion-text-center">{{page}} of {{totalPages(count)}}</ion-title>
 
-    <ion-buttons slot="end" *ngIf="next != null">
-      <ion-button (click)="getPokemons(next)">>
-        <ion-icon slot="icon-only" name="caret-next-circle-outline"></ion-icon>
+    <ion-buttons slot="end" *ngIf="next">
+      <ion-button (click)="nextPage(next)">
+        <ion-icon slot="icon-only" name="arrow-forward-circle-outline"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
